@@ -1,0 +1,142 @@
+% !TEX program = lualatex
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{cvinfo}[2017/11/22 CV info package]
+
+\RequirePackage{xparse}
+\RequirePackage{luacode}
+
+\luadirect{
+    PathLib = dofile (kpse.find_file ('path.lua'))
+    Json = dofile (kpse.find_file ('json.lua'))
+    function get_path (file)
+        return PathLib.path (file)
+    end
+    table = {}
+    function load_info (file)
+        local filepath = get_path (file)
+        local jsonfile = io.open (filepath)
+        local config = jsonfile:read ('*all')
+        jsonfile:close ()
+        table = Json.parse (config)
+    end
+}
+
+\NewDocumentEnvironment{loadinfo}{m}{%
+   \luadirect{load_info ('#1')}%
+    
+    \newcommand{\ctcname}[1] {
+        \luadirect{tex.print (table['contact']['name'][##1])}
+    }
+
+    \newcommand{\ctccellphone} {
+        \luadirect{tex.print (table['contact']['cellphone'])}
+    }
+
+    \newcommand{\ctcemail} {
+        \luadirect{tex.print (table['contact']['email'])}
+    }
+
+    \newcommand{\ctcgithub} {
+        \luadirect{tex.print (table['contact']['github'])}
+    }
+
+    \newcommand{\ctcgitlab} {
+        \luadirect{tex.print (table['contact']['gitlab'])}
+    }
+
+    \newcommand{\ctcaddress}[1] {
+        \luadirect{tex.print (table['contact']['address']['##1'])}
+    }
+
+    \newcommand{\ctccity} {
+        \luadirect{tex.print (table['contact']['city'])}
+    }
+
+    \newcommand{\ctcstate} {
+        \luadirect{tex.print (table['contact']['state'])}
+    }
+
+    \newcommand{\ctccountry}[1] {
+        \luadirect{tex.print (table['contact']['country']['##1'])}
+    }
+
+    \newcommand{\ctcabout}[1] {
+        \luadirect{tex.print (table['contact']['about']['##1'])}
+    }
+
+    \newcommand{\kwdedutitle}[1] {
+        \luadirect{tex.print (table['education']['keyword-title']['##1'])}
+    }
+
+    \newcommand{\edulocal}[1] {
+        \luadirect{tex.print (table['education']['local']['##1'])}
+    }
+
+    \newcommand{\eduuniversity}[1] {
+        \luadirect{tex.print (table['education']['university']['##1'])}
+    }
+
+    \newcommand{\eduperiod}[1] {
+        \luadirect{tex.print (table['education']['period']['##1'])}
+    }
+
+    \newcommand{\edumajor}[1] {
+        \luadirect{tex.print (table['education']['major']['##1'])}
+    }
+
+    \newcommand{\edugrade}[1] {
+        \luadirect{tex.print (table['education']['grade']['##1'])}
+    }
+
+    \newcommand{\kwdwrktitle}[1] {
+        \luadirect{tex.print (table['employment']['keyword-title']['##1'])}
+    }
+
+    \newcommand{\wrkn}{
+        \luadirect{tex.print (table['employment']['works-n'])}
+    }
+
+    \newcommand{\wrknpone}{
+        \luadirect{tex.print (table['employment']['works-npone'])}
+    }
+
+    \newcommand{\wrktype}[2] {
+        \luadirect{tex.print (table['employment']['works'][##2]['type']['##1'])}
+    }
+
+    \newcommand{\wrkemployer}[2] {
+        \luadirect{tex.print (table['employment']['works'][##2]['employer']['##1'])}
+    }
+
+    \newcommand{\wrkperiod}[2] {
+        \luadirect{tex.print (table['employment']['works'][##2]['period']['##1'])}
+    }
+
+    \newcommand{\wrktitle}[2] {
+        \luadirect{tex.print (table['employment']['works'][##2]['title']['##1'])}
+    }
+
+    \newcommand{\wrkinfo}[2] {
+        \luadirect{tex.print (table['employment']['works'][##2]['info']['##1'])}
+    }
+
+    \newcommand{\kwdskltitle}[1] {
+        \luadirect{tex.print (table['skills']['keyword-title']['##1'])}
+    }
+
+    \newcommand{\kwdsklstrong}[1] {
+        \luadirect{tex.print (table['skills']['keyword-strong']['##1'])}
+    }
+
+    \newcommand{\kwdsklknowledgeable}[1] {
+        \luadirect{tex.print (table['skills']['keyword-knowledgeable']['##1'])}
+    }
+
+    \newcommand{\sklstrong} {
+        \luadirect{tex.print (table['skills']['strong'])}
+    }
+
+    \newcommand{\sklknowledgeable} {
+        \luadirect{tex.print (table['skills']['knowledgeable'])}
+    }
+}{}
