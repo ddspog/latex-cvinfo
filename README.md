@@ -46,3 +46,5 @@ This package has two objectives from now:
 ```
 
 * Publish the package on Latex official repo.
+
+Any interest in help is much appreciated.
