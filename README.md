@@ -39,12 +39,13 @@ The *testinfo.json* must contain the fields used on cvinfo.sty file. Read it to 
 
 This package has two objectives from now:
 
-* Create a general function to access the fields, like:
+* Learn to create a general function to access the fields, like:
 
 ```latex
 \data{'contact'}{'name'}{3}
 ```
 
+* Follow [JsonResume](https://jsonresume.org/schema/) structure.
 * Publish the package on Latex official repo.
 
 Any interest in help is much appreciated.
